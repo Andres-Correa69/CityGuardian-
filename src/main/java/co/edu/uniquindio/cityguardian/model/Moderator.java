@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class Moderator extends User {
     //var
     private String moderatorId;
-    private String userIdFk;
+    private String moderatorIdFk;
 
     //builder
-    public Moderator(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String moderatorId, String userIdFk) {
+    public Moderator(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String moderatorId, String moderatorIdFk) {
         super(id, name, email, phone, address, city, password, active, role);
         this.moderatorId = moderatorId;
-        this.userIdFk = userIdFk;
+        this.moderatorIdFk = moderatorIdFk;
     }
 
     //empty builder
@@ -38,10 +38,10 @@ public class Moderator extends User {
     }
 
     public String getUserIdFk() {
-        return userIdFk;
+        return moderatorIdFk;
     }
 
     public void setUserIdFk(String userIdFk) {
-        this.userIdFk = userIdFk;
+        this.moderatorIdFk = userIdFk;
     }
 }
