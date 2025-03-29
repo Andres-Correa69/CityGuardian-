@@ -21,15 +21,6 @@ public interface CityGuardianMapper {
 
    //@IterableMapping(qualifiedByName = "categoryToCategoryDto")
 
-
-    //clientDto
-    @Named("clientToClientDto")
-    ClientDto clientToCLientDto(Client client);
-
-    Client clientDtoToClient(ClientDto clientDto);
-
-    //@IterableMapping(qualifiedByName = "clientToClientDto")
-
     //commentDto
     @Named("commentToCommentDto")
     CommentDto commentToCommentDto(Comment comment);
@@ -45,13 +36,6 @@ public interface CityGuardianMapper {
 
     Location locationDtoToLocation(LocationDto locationDto);
     //@IterableMapping(qualifiedByName = "locationToLocationDto")
-
-    //moderatorDto
-    @Named("moderatorToModeratorDto")
-    ModeratorDto moderatorToModeratorDto(Moderator moderator);
-
-    Moderator moderatorDtoToModerator(ModeratorDto moderatorDto);
-    //@IterableMapping(qualifiedByName = "moderatorToModeratorDto")
 
     //notificationDto
     @Named("notificationToNotificationDto")

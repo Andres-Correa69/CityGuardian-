@@ -2,25 +2,29 @@ package co.edu.uniquindio.cityguardian.controller;
 
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditUserDto;
+import co.edu.uniquindio.cityguardian.mapping.dto.MessageDTO;
+import co.edu.uniquindio.cityguardian.services.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import co.edu.uniquindio.cityguardian.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequiredArgsConstructor
+@RequestMapping("/api/users")
 public class UserController  {
 
     @Autowired
     private UserService userService;
 
     @PostMapping
-    public void create (CreateUserDto account) throws Exception{
+    public ResponseEntity<MessageDTO<String>> createNewUser(@Valid @RequestBody CreateUserDto account) throws Exception{
+        userService.createNewUser(account);
+        return ResponseEntity.status(201).body(new MessageDTO<>(false, "Su registro ha sido exitoso"));
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public void edit (EditUserDto account) throws  Exception{
     }
 
