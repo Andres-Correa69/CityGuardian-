@@ -9,10 +9,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper (componentModel = "spring")
 public interface CityGuardianMapper {
 
-    CityGuardianMapper INSTANCE = Mappers.getMapper(CityGuardianMapper.class);
 
     //categoryDto
     @Named("categoryToCategoryDto")
@@ -20,7 +19,7 @@ public interface CityGuardianMapper {
 
     Category categoryDtoToCategory(CategoryDto categoryDto);
 
-  // @IterableMapping(qualifiedByName = "categoryToCategoryDto")
+   //@IterableMapping(qualifiedByName = "categoryToCategoryDto")
 
 
     //clientDto
@@ -38,6 +37,7 @@ public interface CityGuardianMapper {
     Comment commentDtoToComment(CommentDto commentDto);
 
     //@IterableMapping(qualifiedByName = commentToCommentDto)
+
 
     //locationDto
     @Named("locationToLocationDto")
