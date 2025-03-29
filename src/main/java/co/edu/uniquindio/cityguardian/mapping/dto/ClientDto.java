@@ -10,7 +10,6 @@ public record ClientDto(
         String password,
         String active,
         String role,
-        String clientId,
         String userIdFk
 ) {
 

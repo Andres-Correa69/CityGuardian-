@@ -10,7 +10,6 @@ public record ModeratorDto(
         String password,
         String active,
         String role,
-        String moderatorId,
         String moderatorIdFk
 ) {
 }

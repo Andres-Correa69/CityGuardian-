@@ -4,6 +4,7 @@ public class User {
      //var
     private String id;
     private String name;
+    private String lastName;
     private String email;
     private String phone;
     private String address;
@@ -14,9 +15,10 @@ public class User {
 
     //builder
 
-    public User(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role) {
+    public User(String id, String name, String lastName, String email, String phone, String address, String city, String password, Boolean active, UserRol role) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.address = address;
@@ -63,6 +65,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

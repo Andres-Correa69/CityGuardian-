@@ -4,14 +4,14 @@ public class Client extends User {
 
     //var
 
-    private String clientId;
+
     private String userIdFk;
 
     //builder
 
-    public Client(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String clientId, String userIdFk) {
-        super(id, name, email, phone, address, city, password, active, role);
-        this.clientId = clientId;
+    public Client(String id, String name, String lastName, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String clientId, String userIdFk) {
+        super(id, name, lastName, email, phone, address, city, password, active, role);
+
         this.userIdFk = userIdFk;
     }
 
@@ -30,15 +30,6 @@ public class Client extends User {
     public static void receiveNotification(){}
 
     //getter y setter
-
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
 
     public String getUserIdFk() {
         return userIdFk;

@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 
 public class Moderator extends User {
     //var
-    private String moderatorId;
+
     private String moderatorIdFk;
 
     //builder
-    public Moderator(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String moderatorId, String moderatorIdFk) {
-        super(id, name, email, phone, address, city, password, active, role);
-        this.moderatorId = moderatorId;
+    public Moderator(String id, String name, String lastName, String email, String phone, String address, String city, String password, Boolean active, UserRol role, String moderatorId, String moderatorIdFk) {
+        super(id, name, lastName, email, phone, address, city, password, active, role);
+
         this.moderatorIdFk = moderatorIdFk;
     }
 
@@ -29,19 +29,11 @@ public class Moderator extends User {
     //getters y setters
 
 
-    public String getModeratorId() {
-        return moderatorId;
-    }
-
-    public void setModeratorId(String moderatorId) {
-        this.moderatorId = moderatorId;
-    }
-
-    public String getUserIdFk() {
+    public String getModeratorIdFk() {
         return moderatorIdFk;
     }
 
-    public void setUserIdFk(String userIdFk) {
-        this.moderatorIdFk = userIdFk;
+    public void setModeratorIdFk(String moderatorIdFk) {
+        this.moderatorIdFk = moderatorIdFk;
     }
 }
