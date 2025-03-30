@@ -3,12 +3,15 @@ package co.edu.uniquindio.cityguardian.controller;
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.MessageDTO;
+import co.edu.uniquindio.cityguardian.mapping.dto.UserDto;
 import co.edu.uniquindio.cityguardian.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +28,22 @@ public class UserController  {
     }
 
     @PutMapping("/{id}")
-    public void edit (EditUserDto account) throws  Exception{
+    public void edit (@Valid @RequestBody EditUserDto account) throws  Exception{
     }
+
+    @DeleteMapping("/{id}")
+    public void delete (@PathVariable String id) throws  Exception{
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUserById(@PathVariable String id) throws Exception{
+        return null;
+    }
+
+    @GetMapping
+    public List<UserDto> getUsers(){
+        return null;
+    }
+
 
 }
