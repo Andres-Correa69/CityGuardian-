@@ -27,8 +27,9 @@ public class UserController  {
         return ResponseEntity.status(201).body(new MessageDTO<>(false, "Su registro ha sido exitoso"));
     }
 
-    @PutMapping("/{id}")
-    public void edit (@Valid @RequestBody EditUserDto account) throws  Exception{
+    @PatchMapping
+    public UserDto edit (@Valid @RequestBody EditUserDto account) throws Exception {
+        return userService.updateUser(account);
     }
 
     @DeleteMapping("/{id}")
