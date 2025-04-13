@@ -7,23 +7,23 @@ public class Report {
     //var
     private String id;
     private String title;
-    private String categoryIdFk;
+    private Category category;
     private String description;
     private String locationIdFk;
-    private ReportStatus statusId;
+    private ReportStatus status;
     private LocalDateTime creationDate;
     private String clientIdFk;
     private int priority;
 
     //builder
 
-    public Report(String id, String title, String categoryIdFk, String description, String locationIdFk, ReportStatus statusId, LocalDateTime creationDate, String clientIdFk, int priority) {
+    public Report(String id, String title, Category category, String description, String locationIdFk, ReportStatus status, LocalDateTime creationDate, String clientIdFk, int priority) {
         this.id = id;
         this.title = title;
-        this.categoryIdFk = categoryIdFk;
+        this.category = category;
         this.description = description;
         this.locationIdFk = locationIdFk;
-        this.statusId = statusId;
+        this.status = status;
         this.creationDate = creationDate;
         this.clientIdFk = clientIdFk;
         this.priority = priority;
@@ -57,12 +57,12 @@ public class Report {
         this.title = title;
     }
 
-    public String getCategoryIdFk() {
-        return categoryIdFk;
+    public Category getCategoryIdFk() {
+        return category;
     }
 
-    public void setCategoryIdFk(String categoryIdFk) {
-        this.categoryIdFk = categoryIdFk;
+    public void setCategoryIdFk(Category categoryIdFk) {
+        this.category = categoryIdFk;
     }
 
     public String getDescription() {
@@ -81,12 +81,12 @@ public class Report {
         this.locationIdFk = locationIdFk;
     }
 
-    public ReportStatus getStatusId() {
-        return statusId;
+    public ReportStatus getStatus() {
+        return status;
     }
 
-    public void setStatusId(ReportStatus statusId) {
-        this.statusId = statusId;
+    public void setStatus(ReportStatus status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreationDate() {
