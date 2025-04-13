@@ -33,17 +33,19 @@ public class UserController  {
     }
 
     @DeleteMapping("/{id}")
-    public void delete (@PathVariable String id) throws  Exception{
+    public ResponseEntity<MessageDTO<String>> delete (@PathVariable String id) throws  Exception{
+        userService.deleteUser(id);
+        return ResponseEntity.status(200).body(new MessageDTO<>(false, "Usuario eliminado exitosamente"));
     }
 
     @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable String id) throws Exception{
-        return null;
+        return userService.getUserById(id);
     }
 
     @GetMapping
     public List<UserDto> getUsers(){
-        return null;
+        return userService.getUsers();
     }
 
 
