@@ -1,14 +1,28 @@
 package co.edu.uniquindio.cityguardian.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 
+@Document("reports")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Report {
 
     //var
+    @Id
     private String id;
     private String title;
     private Category category;
     private String description;
+    private Boolean solved;
+    private Boolean important;
     private String locationIdFk;
     private ReportStatus status;
     private LocalDateTime creationDate;
@@ -16,12 +30,14 @@ public class Report {
     private int priority;
 
     //builder
-
-    public Report(String id, String title, Category category, String description, String locationIdFk, ReportStatus status, LocalDateTime creationDate, String clientIdFk, int priority) {
+    @Builder
+    public Report(String id, String title, Category category, String description, Boolean solved, Boolean important,String locationIdFk, ReportStatus status, LocalDateTime creationDate, String clientIdFk, int priority) {
         this.id = id;
         this.title = title;
         this.category = category;
         this.description = description;
+        this.solved = solved;
+        this.important = important;
         this.locationIdFk = locationIdFk;
         this.status = status;
         this.creationDate = creationDate;
@@ -29,10 +45,7 @@ public class Report {
         this.priority = priority;
     }
 
-    //empty builder
 
-    public Report() {
-    }
 
     //methods
     public static void updateStatus(ReportStatus status){}
@@ -41,6 +54,32 @@ public class Report {
     public static void viewHistory(){}
 
     //getters y setters
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Boolean getSolved() {
+        return solved;
+    }
+
+    public void setSolved(Boolean solved) {
+        this.solved = solved;
+    }
+
+    public Boolean getImportant() {
+        return important;
+    }
+
+    public void setImportant(Boolean important) {
+        this.important = important;
+    }
+
     public String getId() {
         return id;
     }
@@ -55,14 +94,6 @@ public class Report {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Category getCategoryIdFk() {
-        return category;
-    }
-
-    public void setCategoryIdFk(Category categoryIdFk) {
-        this.category = categoryIdFk;
     }
 
     public String getDescription() {

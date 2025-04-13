@@ -13,12 +13,6 @@ import org.mapstruct.factory.Mappers;
 public interface CityGuardianMapper {
 
 
-    //categoryDto
-    @Named("categoryToCategoryDto")
-    CategoryDto categoryToCategoryDto(Category category);
-
-    Category categoryDtoToCategory(CategoryDto categoryDto);
-
    //@IterableMapping(qualifiedByName = "categoryToCategoryDto")
 
     //commentDto

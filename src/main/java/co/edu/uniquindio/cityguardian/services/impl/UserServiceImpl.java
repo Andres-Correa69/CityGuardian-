@@ -5,6 +5,7 @@ import co.edu.uniquindio.cityguardian.mapping.dto.CreateUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.UserDto;
 import co.edu.uniquindio.cityguardian.mapping.mappers.UserMapper;
+import co.edu.uniquindio.cityguardian.model.Report;
 import co.edu.uniquindio.cityguardian.model.User;
 import co.edu.uniquindio.cityguardian.repository.UserRepository;
 import co.edu.uniquindio.cityguardian.services.UserService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,4 +58,29 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toUserDto(repository.save(existingUser));
     }
+
+    @Override
+    public void deleteUser(String id) throws Exception {
+        Optional<User> reportOptional = repository.findById(id);
+        if (reportOptional.isEmpty()){
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        repository.deleteById(id);
+    }
+
+    @Override
+    public UserDto getUserById(String id) throws Exception {
+        Optional<User> optionalUser = repository.findById(id);
+        if (optionalUser.isEmpty()){
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        return userMapper.toUserDto(optionalUser.get());
+    }
+
+    @Override
+    public List<UserDto> getUsers() {
+        List<User> users = repository.findAll();
+        return users.stream().map(userMapper::toUserDto).toList();
+    }
+
 }
