@@ -1,6 +1,7 @@
 package co.edu.uniquindio.cityguardian.services.impl;
 
 import co.edu.uniquindio.cityguardian.exceptions.RepeatedElementException;
+import co.edu.uniquindio.cityguardian.mapping.dto.CommentDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.FilterReportDto;
@@ -16,8 +17,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -131,6 +131,24 @@ public class ReportServiceImpl implements ReportService {
 
     public boolean idExist(String id){
         return  repository.findById(id).isPresent();
+    }
+
+    public void addComment(CommentDto commentDto, String id) throws Exception {
+        Optional<Report> optionalReport = repository.findById(id);
+        if (optionalReport.isEmpty()){
+            throw new RepeatedElementException("No se puede agregar el comentario, por que no existe el reporte");
+        }
+        Report report = optionalReport.get();
+        System.out.println("Comment: " + commentDto.description());
+        if (report.getComments() == null) {
+            List<String> comments = Collections.singletonList(commentDto.description());
+            report.setComments(comments);
+        } else {
+            report.getComments().add(commentDto.description());
+        }
+
+
+        repository.save(report);
     }
 
 

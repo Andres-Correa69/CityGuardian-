@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document("reports")
 @Getter
@@ -27,12 +28,12 @@ public class Report {
     private String locationIdFk;
     private ReportStatus status;
     private LocalDateTime creationDate;
-    private String clientIdFk;
+    private List<String> comments;
     private int priority;
 
     //builder
     @Builder
-    public Report(String id, String title, Category category, String description, Boolean solved, Boolean important,String locationIdFk, ReportStatus status, LocalDateTime creationDate, String clientIdFk, int priority) {
+    public Report(String id, String title, Category category, String description, Boolean solved, Boolean important,String locationIdFk, ReportStatus status, LocalDateTime creationDate, List<String> comments, int priority) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -42,7 +43,7 @@ public class Report {
         this.locationIdFk = locationIdFk;
         this.status = status;
         this.creationDate = creationDate;
-        this.clientIdFk = clientIdFk;
+        this.comments = comments;
         this.priority = priority;
     }
 
@@ -50,7 +51,6 @@ public class Report {
 
     //methods
     public static void updateStatus(ReportStatus status){}
-    public static void addComment(Comment comment){}
     public static void assingPriority(){}
     public static void viewHistory(){}
 
@@ -129,19 +129,19 @@ public class Report {
         this.creationDate = creationDate;
     }
 
-    public String getClientIdFk() {
-        return clientIdFk;
-    }
-
-    public void setClientIdFk(String clientIdFk) {
-        this.clientIdFk = clientIdFk;
-    }
-
     public int getPriority() {
         return priority;
     }
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<String> comments) {
+        this.comments = comments;
     }
 }
