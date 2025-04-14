@@ -29,8 +29,8 @@ public class ReportController {
     }
 
     @PutMapping("/{id}")
-    public ReportDto editReport(@Valid @RequestBody EditReportDto reportDto) throws Exception {
-        return reportService.updateReport(reportDto);
+    public ReportDto editReport(@Valid @RequestBody EditReportDto reportDto, @PathVariable String id) throws Exception {
+        return reportService.updateReport(reportDto, id);
     }
 
     @DeleteMapping("/{id}")
@@ -45,13 +45,15 @@ public class ReportController {
     }
 
     @PutMapping("/{id}/solve")
-    public void markReportAsSolve(@PathVariable String id) throws Exception {
+    public ResponseEntity<MessageDTO<String>> markReportAsSolve(@PathVariable String id) throws Exception {
         reportService.markReportAsSolved(id);
+        return ResponseEntity.status(200).body(new MessageDTO<>(false, "Reporte marcado como resuelto"));
     }
 
     @PutMapping("/{id}/important")
-    public void markReportAsImportant(@PathVariable String id) throws Exception {
+    public ResponseEntity<MessageDTO<String>> markReportAsImportant(@PathVariable String id) throws Exception {
         reportService.markReportAsImportant(id);
+        return ResponseEntity.status(200).body(new MessageDTO<>(false, "Reporte marcado como importante"));
     }
 
     @GetMapping

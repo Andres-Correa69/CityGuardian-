@@ -31,18 +31,14 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void createNewReport(CreateReportDto reportDto) throws Exception {
-        if(idExist(reportDto.id())){
-            throw new RepeatedElementException("El reporte ya fue creado");
-        }
-
         Report report = reportMapper.toDocument(reportDto);
         repository.save(report);
 
     }
 
     @Override
-    public ReportDto updateReport(EditReportDto updatedReport) throws Exception {
-        Optional<Report> optionalReport = repository.findById(updatedReport.id());
+    public ReportDto updateReport(EditReportDto updatedReport, String id) throws Exception {
+        Optional<Report> optionalReport = repository.findById(id);
         if (optionalReport.isEmpty()){
             throw new RuntimeException("Reporte no encontrado");
         }

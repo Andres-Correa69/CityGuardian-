@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReportService {
 
     void createNewReport(CreateReportDto reportDto) throws Exception;
-    ReportDto updateReport(EditReportDto updatedReport) throws Exception;
+    ReportDto updateReport(EditReportDto updatedReport, String id) throws Exception;
     void deleteReport(String id) throws Exception;
     ReportDto getReportById(String id) throws Exception;
     List<ReportDto> getReports();

@@ -7,12 +7,12 @@ public record ReportDto(
         @Id
         String id,
         String title,
-        String categoryIdFK,
+        String category,
         String description,
         String solved,
         String important,
         String locationIdFk,
-        String statusId,
+        String status,
         String creationDate,
         String clientIdFk,
         String priority
