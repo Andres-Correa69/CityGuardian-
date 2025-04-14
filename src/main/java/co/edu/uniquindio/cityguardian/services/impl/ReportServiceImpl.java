@@ -17,9 +17,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -105,35 +102,29 @@ public class ReportServiceImpl implements ReportService {
     public List<ReportDto> filterReports(FilterReportDto filterReportDto) throws Exception {
 
         Query query = new Query();
-        List<Criteria> criteriaList = new ArrayList<>();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if (filterReportDto.initialDate() != null && !filterReportDto.initialDate().isEmpty()) {
-            LocalDate localInitial = LocalDate.parse(filterReportDto.initialDate(), formatter);
-            Date initialDate = Date.from(localInitial.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            criteriaList.add(Criteria.where("creationDate").gte(initialDate));
+            query.addCriteria(Criteria.where("date")
+                    .gte(filterReportDto.initialDate()));
         }
 
         if (filterReportDto.finalDate() != null && !filterReportDto.finalDate().isEmpty()) {
-            LocalDate localFinal = LocalDate.parse(filterReportDto.finalDate(), formatter).plusDays(1);
-            Date finalDate = Date.from(localFinal.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            criteriaList.add(Criteria.where("creationDate").lt(finalDate));
-        }
-
-        if (!criteriaList.isEmpty()) {
-            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
+            query.addCriteria(Criteria.where("date")
+                    .lte(filterReportDto.finalDate()));
         }
 
         if (filterReportDto.status() != null && !filterReportDto.status().isEmpty()) {
-            query.addCriteria(Criteria.where("status").is(filterReportDto.status()));
+            query.addCriteria(Criteria.where("status")
+                    .is(filterReportDto.status()));
         }
 
         if (filterReportDto.category() != null && !filterReportDto.category().isEmpty()) {
-            query.addCriteria(Criteria.where("category").is(filterReportDto.category()));
+            query.addCriteria(Criteria.where("category")
+                    .is(filterReportDto.category()));
         }
 
         List<Report> reports = mongoTemplate.find(query, Report.class);
+
         return reports.stream().map(reportMapper::toReportDto).toList();
     }
 
@@ -155,6 +146,7 @@ public class ReportServiceImpl implements ReportService {
         } else {
             report.getComments().add(commentDto.description());
         }
+
 
         repository.save(report);
     }
