@@ -4,6 +4,8 @@ import co.edu.uniquindio.cityguardian.mapping.dto.CreateUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditUserDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.MessageDTO;
 import co.edu.uniquindio.cityguardian.mapping.dto.UserDto;
+import co.edu.uniquindio.cityguardian.model.dto.AuthResponseDTO;
+import co.edu.uniquindio.cityguardian.model.dto.LoginRequest;
 import co.edu.uniquindio.cityguardian.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +45,7 @@ public class UserController  {
         return userService.getUserById(id);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<UserDto> getUsers(){
         return userService.getUsers();
     }

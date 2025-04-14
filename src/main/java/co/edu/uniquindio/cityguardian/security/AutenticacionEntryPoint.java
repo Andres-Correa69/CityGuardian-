@@ -19,15 +19,12 @@ public class AutenticacionEntryPoint implements AuthenticationEntryPoint {
 
         MensajeDTO<String> dto = new MensajeDTO<>(true, "No tienes permisos para acceder a este recurso");
 
-
+        
         response.setContentType("application/json");
         response.setStatus(403);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(dto));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(response.getWriter()));
         response.getWriter().flush();
         response.getWriter().close();
-
-
-
 
     }
 }

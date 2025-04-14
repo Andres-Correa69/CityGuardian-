@@ -7,15 +7,23 @@ import co.edu.uniquindio.cityguardian.mapping.dto.UserDto;
 import co.edu.uniquindio.cityguardian.mapping.mappers.UserMapper;
 import co.edu.uniquindio.cityguardian.model.Report;
 import co.edu.uniquindio.cityguardian.model.User;
+import co.edu.uniquindio.cityguardian.model.dto.AuthResponseDTO;
+import co.edu.uniquindio.cityguardian.model.dto.LoginRequest;
 import co.edu.uniquindio.cityguardian.repository.UserRepository;
+import co.edu.uniquindio.cityguardian.security.JWTUtils;
 import co.edu.uniquindio.cityguardian.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import javax.naming.AuthenticationException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -29,15 +37,44 @@ public class UserServiceImpl implements UserService {
     private ObjectMapper objectMapper;
     @Autowired
     private  MongoTemplate mongoTemplate;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+    @Autowired
+    private JWTUtils jwtUtils;
 
     @Override
-    public void createNewUser(CreateUserDto userDto) {
+    public AuthResponseDTO login(LoginRequest loginRequest) throws Exception {
+        if (!emailExist(loginRequest.email())){
+            throw new AuthenticationException("El email no existe");
+        }
+        User user = repository.findByEmail(loginRequest.email())
+        .orElseThrow(() -> new AuthenticationException("El usuario no existe"));
+
+        if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
+            throw new Exception("Credenciales inválidas");
+        }
+
+        Map<String, String> claims = new HashMap<>();
+        claims.put("email", user.getEmail());
+        claims.put("role", user.getRole().name());
+
+
+        String token = jwtUtils.generateToken(user.getId(), claims);
+
+        UserDto userDto = userMapper.toUserDto(user);
+
+        return new AuthResponseDTO(token, userDto);
+    }
+
+    @Override
+    public void createNewUser(CreateUserDto userDto)  throws Exception {
 
         if(emailExist(userDto.email())){
             throw new RepeatedElementException("El email ya está registrado");
         }
 
         User user = userMapper.toDocument(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
 
