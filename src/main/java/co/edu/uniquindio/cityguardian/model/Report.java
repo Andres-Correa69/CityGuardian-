@@ -1,38 +1,52 @@
 package co.edu.uniquindio.cityguardian.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 
+@Document("reports")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Report {
 
     //var
+    @Id
     private String id;
     private String title;
-    private String categoryIdFk;
+    private Category category;
     private String description;
+    private Boolean solved;
+    private Boolean important;
     private String locationIdFk;
-    private ReportStatus statusId;
+    private ReportStatus status;
     private LocalDateTime creationDate;
     private String clientIdFk;
     private int priority;
 
     //builder
-
-    public Report(String id, String title, String categoryIdFk, String description, String locationIdFk, ReportStatus statusId, LocalDateTime creationDate, String clientIdFk, int priority) {
+    @Builder
+    public Report(String id, String title, Category category, String description, Boolean solved, Boolean important,String locationIdFk, ReportStatus status, LocalDateTime creationDate, String clientIdFk, int priority) {
         this.id = id;
         this.title = title;
-        this.categoryIdFk = categoryIdFk;
+        this.category = category;
         this.description = description;
+        this.solved = solved;
+        this.important = important;
         this.locationIdFk = locationIdFk;
-        this.statusId = statusId;
+        this.status = status;
         this.creationDate = creationDate;
         this.clientIdFk = clientIdFk;
         this.priority = priority;
     }
 
-    //empty builder
 
-    public Report() {
-    }
 
     //methods
     public static void updateStatus(ReportStatus status){}
@@ -41,6 +55,32 @@ public class Report {
     public static void viewHistory(){}
 
     //getters y setters
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Boolean getSolved() {
+        return solved;
+    }
+
+    public void setSolved(Boolean solved) {
+        this.solved = solved;
+    }
+
+    public Boolean getImportant() {
+        return important;
+    }
+
+    public void setImportant(Boolean important) {
+        this.important = important;
+    }
+
     public String getId() {
         return id;
     }
@@ -55,14 +95,6 @@ public class Report {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCategoryIdFk() {
-        return categoryIdFk;
-    }
-
-    public void setCategoryIdFk(String categoryIdFk) {
-        this.categoryIdFk = categoryIdFk;
     }
 
     public String getDescription() {
@@ -81,12 +113,12 @@ public class Report {
         this.locationIdFk = locationIdFk;
     }
 
-    public ReportStatus getStatusId() {
-        return statusId;
+    public ReportStatus getStatus() {
+        return status;
     }
 
-    public void setStatusId(ReportStatus statusId) {
-        this.statusId = statusId;
+    public void setStatus(ReportStatus status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreationDate() {
