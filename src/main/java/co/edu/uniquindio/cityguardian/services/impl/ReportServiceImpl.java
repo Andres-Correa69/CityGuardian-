@@ -3,6 +3,7 @@ package co.edu.uniquindio.cityguardian.services.impl;
 import co.edu.uniquindio.cityguardian.exceptions.RepeatedElementException;
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
+import co.edu.uniquindio.cityguardian.mapping.dto.FilterReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.ReportDto;
 import co.edu.uniquindio.cityguardian.mapping.mappers.ReportMapper;
 import co.edu.uniquindio.cityguardian.model.Report;
@@ -11,6 +12,8 @@ import co.edu.uniquindio.cityguardian.services.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -93,6 +96,36 @@ public class ReportServiceImpl implements ReportService {
         report.setImportant(true);
         repository.save(report);
 
+    }
+
+    @Override
+    public List<ReportDto> filterReports(FilterReportDto filterReportDto) throws Exception {
+
+        Query query = new Query();
+
+        if (filterReportDto.initialDate() != null && !filterReportDto.initialDate().isEmpty()) {
+            query.addCriteria(Criteria.where("date")
+                    .gte(filterReportDto.initialDate()));
+        }
+
+        if (filterReportDto.finalDate() != null && !filterReportDto.finalDate().isEmpty()) {
+            query.addCriteria(Criteria.where("date")
+                    .lte(filterReportDto.finalDate()));
+        }
+
+        if (filterReportDto.status() != null && !filterReportDto.status().isEmpty()) {
+            query.addCriteria(Criteria.where("status")
+                    .is(filterReportDto.status()));
+        }
+
+        if (filterReportDto.category() != null && !filterReportDto.category().isEmpty()) {
+            query.addCriteria(Criteria.where("category")
+                    .is(filterReportDto.category()));
+        }
+
+        List<Report> reports = mongoTemplate.find(query, Report.class);
+
+        return reports.stream().map(reportMapper::toReportDto).toList();
     }
 
 

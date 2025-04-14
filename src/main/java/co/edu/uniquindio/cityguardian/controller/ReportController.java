@@ -1,10 +1,7 @@
 package co.edu.uniquindio.cityguardian.controller;
 
 
-import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
-import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
-import co.edu.uniquindio.cityguardian.mapping.dto.MessageDTO;
-import co.edu.uniquindio.cityguardian.mapping.dto.ReportDto;
+import co.edu.uniquindio.cityguardian.mapping.dto.*;
 import co.edu.uniquindio.cityguardian.services.ReportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +18,11 @@ public class ReportController {
 
     @Autowired
     private ReportService reportService;
+
+    @PostMapping("/filter")
+    public List<ReportDto> filterReports(@RequestBody  FilterReportDto filterReportDto) throws Exception{
+        return reportService.filterReports(filterReportDto);
+    }
 
     @PostMapping
     public ResponseEntity<MessageDTO<String>> createNewReport(@Valid @RequestBody CreateReportDto reportDto) throws Exception {

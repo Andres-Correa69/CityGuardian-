@@ -2,6 +2,7 @@ package co.edu.uniquindio.cityguardian.services;
 
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
+import co.edu.uniquindio.cityguardian.mapping.dto.FilterReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.ReportDto;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface ReportService {
     List<ReportDto> getReports();
     void markReportAsSolved(String id) throws Exception;
     void markReportAsImportant(String id) throws Exception;
+    List<ReportDto> filterReports(FilterReportDto filterReportDto) throws Exception;
 
 }
