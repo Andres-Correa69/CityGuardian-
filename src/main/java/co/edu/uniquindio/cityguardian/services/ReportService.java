@@ -1,5 +1,6 @@
 package co.edu.uniquindio.cityguardian.services;
 
+import co.edu.uniquindio.cityguardian.mapping.dto.CommentDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.FilterReportDto;
@@ -17,5 +18,5 @@ public interface ReportService {
     void markReportAsSolved(String id) throws Exception;
     void markReportAsImportant(String id) throws Exception;
     List<ReportDto> filterReports(FilterReportDto filterReportDto) throws Exception;
-
+    void addComment(CommentDto commentDto, String id) throws Exception;
 }

@@ -1,6 +1,7 @@
 package co.edu.uniquindio.cityguardian.services.impl;
 
 import co.edu.uniquindio.cityguardian.exceptions.RepeatedElementException;
+import co.edu.uniquindio.cityguardian.mapping.dto.CommentDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.CreateReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.EditReportDto;
 import co.edu.uniquindio.cityguardian.mapping.dto.FilterReportDto;
@@ -16,8 +17,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -102,35 +105,58 @@ public class ReportServiceImpl implements ReportService {
     public List<ReportDto> filterReports(FilterReportDto filterReportDto) throws Exception {
 
         Query query = new Query();
+        List<Criteria> criteriaList = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if (filterReportDto.initialDate() != null && !filterReportDto.initialDate().isEmpty()) {
-            query.addCriteria(Criteria.where("date")
-                    .gte(filterReportDto.initialDate()));
+            LocalDate localInitial = LocalDate.parse(filterReportDto.initialDate(), formatter);
+            Date initialDate = Date.from(localInitial.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            criteriaList.add(Criteria.where("creationDate").gte(initialDate));
         }
 
         if (filterReportDto.finalDate() != null && !filterReportDto.finalDate().isEmpty()) {
-            query.addCriteria(Criteria.where("date")
-                    .lte(filterReportDto.finalDate()));
+            LocalDate localFinal = LocalDate.parse(filterReportDto.finalDate(), formatter).plusDays(1);
+            Date finalDate = Date.from(localFinal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            criteriaList.add(Criteria.where("creationDate").lt(finalDate));
+        }
+
+        if (!criteriaList.isEmpty()) {
+            query.addCriteria(new Criteria().andOperator(criteriaList.toArray(new Criteria[0])));
         }
 
         if (filterReportDto.status() != null && !filterReportDto.status().isEmpty()) {
-            query.addCriteria(Criteria.where("status")
-                    .is(filterReportDto.status()));
+            query.addCriteria(Criteria.where("status").is(filterReportDto.status()));
         }
 
         if (filterReportDto.category() != null && !filterReportDto.category().isEmpty()) {
-            query.addCriteria(Criteria.where("category")
-                    .is(filterReportDto.category()));
+            query.addCriteria(Criteria.where("category").is(filterReportDto.category()));
         }
 
         List<Report> reports = mongoTemplate.find(query, Report.class);
-
         return reports.stream().map(reportMapper::toReportDto).toList();
     }
 
 
     public boolean idExist(String id){
         return  repository.findById(id).isPresent();
+    }
+
+    public void addComment(CommentDto commentDto, String id) throws Exception {
+        Optional<Report> optionalReport = repository.findById(id);
+        if (optionalReport.isEmpty()){
+            throw new RepeatedElementException("No se puede agregar el comentario, por que no existe el reporte");
+        }
+        Report report = optionalReport.get();
+        System.out.println("Comment: " + commentDto.description());
+        if (report.getComments() == null) {
+            List<String> comments = Collections.singletonList(commentDto.description());
+            report.setComments(comments);
+        } else {
+            report.getComments().add(commentDto.description());
+        }
+
+        repository.save(report);
     }
 
 

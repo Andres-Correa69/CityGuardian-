@@ -1,63 +1,40 @@
 package co.edu.uniquindio.cityguardian.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Document
+@Getter
+@Setter
+@NoArgsConstructor
 public class Comment {
-    //var
+
+    @Id
     private String id;
-    private String content;
-    private String clientIdFk;
-    private String reportIdFk;
+    private String description;
+
     private LocalDateTime date;
 
-    //builder
-    public Comment(String id, String content, String clientIdFk, String reportIdFk, LocalDateTime date) {
+    @Builder
+    public Comment(String id, String description, LocalDateTime date) {
         this.id = id;
-        this.content = content;
-        this.clientIdFk = clientIdFk;
-        this.reportIdFk = reportIdFk;
+        this.description = description;
         this.date = date;
     }
 
-    //empty builder
-    public Comment() {}
-
-    //methods
-    public static void editComment(String newContent){}
-    public static void deleteComment(){}
-
-    //Getter y Setter
-    public String getId() {
-        return id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getClientIdFk() {
-        return clientIdFk;
-    }
-
-    public void setClientIdFk(String clientIdFk) {
-        this.clientIdFk = clientIdFk;
-    }
-
-    public String getReportIdFk() {
-        return reportIdFk;
-    }
-
-    public void setReportIdFk(String reportIdFk) {
-        this.reportIdFk = reportIdFk;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getDate() {

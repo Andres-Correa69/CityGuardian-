@@ -62,4 +62,10 @@ public class ReportController {
     public List<ReportDto> getReports(){
         return reportService.getReports();
     }
+
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<MessageDTO<String>> addComment(@Valid @RequestBody CommentDto commentDto, @PathVariable String id) throws Exception {
+        reportService.addComment(commentDto, id);
+        return ResponseEntity.status(200).body(new MessageDTO<>(false, "Comentario agregado correctamente"));
+    }
 }
