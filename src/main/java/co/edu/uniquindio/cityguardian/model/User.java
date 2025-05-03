@@ -1,68 +1,36 @@
 package co.edu.uniquindio.cityguardian.model;
 
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
+
+@Document("users")
+@Setter
+@Getter
+@NoArgsConstructor
 public class User {
-     //var
+
+    @Id
     private String id;
     private String name;
+    private String lastName;
     private String email;
     private String phone;
     private String address;
     private String city;
     private String password;
-    private Boolean active;
+    private Boolean isActive;
     private UserRol role;
+    private LocalDateTime registerDate;
 
-    //builder
-
-    public User(String id, String name, String email, String phone, String address, String city, String password, Boolean active, UserRol role) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.city = city;
-        this.password = password;
-        this.active = active;
-        this.role = role;
-    }
-    //empty builder
-    public User(){}
-
-    //methods
-
-    public static void register(){
+    public String getLastName() {
+        return lastName;
     }
 
-    public static void login(){
-    }
-
-    public static void editProfile(){
-    }
-
-    public static void deleteAccount(){
-    }
-
-    public static void recoveryPassword(){
-    }
-
-    public static void changePassword(String newPassword){
-    }
-
-    //getter y setter
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -97,6 +65,22 @@ public class User {
         this.city = city;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -105,12 +89,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getActive() {
-        return active;
+    public Boolean getIsActive() {
+        return isActive;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setIsActive(Boolean active) {
+        this.isActive = active;
     }
 
     public UserRol getRole() {
@@ -120,4 +104,26 @@ public class User {
     public void setRole(UserRol role) {
         this.role = role;
     }
+
+    public LocalDateTime getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(LocalDateTime registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    @Builder
+    public User(String name, String city, String address, String email, String phone, String password, UserRol role, Boolean isActive, LocalDateTime registerDate) {
+        this.name = name;
+        this.city = city;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.role = role;
+        this.isActive = isActive;
+        this.registerDate = registerDate;
+    }
+
 }
